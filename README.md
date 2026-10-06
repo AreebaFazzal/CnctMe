@@ -279,6 +279,7 @@ CnctMe/
 │
 └── UI_ScreenShots
 └── .gitignore
+└── LICENSE
 └── README.md
 
 ```
