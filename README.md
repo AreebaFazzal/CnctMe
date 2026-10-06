@@ -349,7 +349,6 @@ CnctMe is a proprietary project. The source code, design, documentation, and ass
 
 See the [LICENSE](LICENSE) file for details.
 
-
 ---
 
 ## Author
