@@ -343,7 +343,12 @@ CnctMe implements several security measures, including:
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+Copyright (c) 2026 Areeba Fazzal. All Rights Reserved.
+
+CnctMe is a proprietary project. The source code, design, documentation, and associated project materials may not be copied, reproduced, modified, distributed, published, sold, or commercially used without prior written permission from the copyright owner.
+
+See the [LICENSE](LICENSE) file for details.
+
 
 ---
 
