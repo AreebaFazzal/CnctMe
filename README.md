@@ -277,7 +277,7 @@ CnctMe/
 │   ├── vercel.json
 │   └── vite.config.js
 │
-└── UI_ScreenShots
+└── UI_ScreenShots/
 └── .gitignore
 └── LICENSE
 └── README.md
