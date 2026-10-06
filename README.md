@@ -94,7 +94,7 @@ The application also includes secure authentication, role-based authorization, n
 ### Home
 
 <p align="center">
-  <img src="https://github.com/AreebaFazzal/CnctMe/blob/32fa789557041a01cd733b4f7ba738221a3be488/Home-I.png" alt="CnctMe Home Page" width="900">
+  <img src="" alt="CnctMe Home Page" width="900">
 </p>
 
 ### Authentication
