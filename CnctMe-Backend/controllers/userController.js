@@ -868,7 +868,6 @@ const updateSettings = async (req, res) => {
 // ==========================================
 // DELETE ACCOUNT PERMANENTLY
 // ==========================================
-
 const deleteAccount = async (req, res) => {
   const { confirmation } = req.body;
 
@@ -887,10 +886,9 @@ const deleteAccount = async (req, res) => {
     throw createError("User not found", 404);
   }
 
-  // ======================================================
-  // JOBSEEKER ACCOUNT DELETION
-  // ======================================================
-
+  // =========================
+  // JOBSEEKER
+  // =========================
   if (user.role === "jobseeker") {
     const applications = await Application.find({
       user: userId,
@@ -900,35 +898,18 @@ const deleteAccount = async (req, res) => {
 
     await Notification.deleteMany({
       $or: [
-        {
-          recipient: userId,
-        },
-        {
-          relatedApplication: {
-            $in: applicationIds,
-          },
-        },
+        { recipient: userId },
+        { relatedApplication: { $in: applicationIds } },
       ],
     });
 
     await Interview.deleteMany({
-      $or: [
-        {
-          candidate: userId,
-        },
-        {
-          application: {
-            $in: applicationIds,
-          },
-        },
-      ],
+      $or: [{ candidate: userId }, { application: { $in: applicationIds } }],
     });
 
     if (applicationIds.length > 0) {
       await Application.deleteMany({
-        _id: {
-          $in: applicationIds,
-        },
+        _id: { $in: applicationIds },
       });
     }
 
@@ -952,10 +933,9 @@ const deleteAccount = async (req, res) => {
     });
   }
 
-  // ======================================================
-  // RECRUITER ACCOUNT DELETION
-  // ======================================================
-
+  // =========================
+  // RECRUITER
+  // =========================
   if (user.role === "recruiter") {
     const jobs = await Job.find({
       createdBy: userId,
@@ -964,69 +944,39 @@ const deleteAccount = async (req, res) => {
     const jobIds = jobs.map((job) => job._id);
 
     const applications = await Application.find({
-      job: {
-        $in: jobIds,
-      },
+      job: { $in: jobIds },
     }).select("_id");
 
     const applicationIds = applications.map((application) => application._id);
 
     const interviews = await Interview.find({
-      $or: [
-        {
-          recruiter: userId,
-        },
-        {
-          application: {
-            $in: applicationIds,
-          },
-        },
-      ],
+      $or: [{ recruiter: userId }, { application: { $in: applicationIds } }],
     }).select("_id");
 
     const interviewIds = interviews.map((interview) => interview._id);
 
     await Notification.deleteMany({
       $or: [
-        {
-          recipient: userId,
-        },
-        {
-          relatedJob: {
-            $in: jobIds,
-          },
-        },
-        {
-          relatedApplication: {
-            $in: applicationIds,
-          },
-        },
-        {
-          relatedInterview: {
-            $in: interviewIds,
-          },
-        },
+        { recipient: userId },
+        { relatedJob: { $in: jobIds } },
+        { relatedApplication: { $in: applicationIds } },
+        { relatedInterview: { $in: interviewIds } },
       ],
     });
 
     await Interview.deleteMany({
-      $or: [
-        {
-          recruiter: userId,
-        },
-        {
-          application: {
-            $in: applicationIds,
-          },
-        },
-      ],
+      $or: [{ recruiter: userId }, { application: { $in: applicationIds } }],
     });
 
     if (jobIds.length > 0) {
       await Application.deleteMany({
-        job: {
-          $in: jobIds,
-        },
+        job: { $in: jobIds },
+      });
+    }
+
+    if (jobIds.length > 0) {
+      await SavedJob.deleteMany({
+        job: { $in: jobIds },
       });
     }
 

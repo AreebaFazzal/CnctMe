@@ -20,6 +20,7 @@ import {
   selectPeople,
   selectPeopleLoading,
   selectPeopleError,
+  selectPeoplePagination,
 } from "../features/people/peopleSlice";
 
 import { selectUser } from "../features/auth/authSlice";
@@ -87,13 +88,14 @@ const People = () => {
   const loading = useSelector(selectPeopleLoading);
   const error = useSelector(selectPeopleError);
   const currentUser = useSelector(selectUser);
+  const pagination = useSelector(selectPeoplePagination);
 
   const [search, setSearch] = useState("");
   const [activeRole, setActiveRole] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Keep the existing 6-card layout.
+  // Keep the existing 9-card layout.
   const USERS_PER_PAGE = 9;
 
   // FETCH PEOPLE
@@ -132,8 +134,9 @@ const People = () => {
     setCurrentPage(1);
   };
 
-  const hasNextPage = users.length === USERS_PER_PAGE;
-  const hasPreviousPage = currentPage > 1;
+  // USE BACKEND PAGINATION INFORMATION
+  const hasNextPage = pagination.hasNextPage;
+  const hasPreviousPage = pagination.hasPreviousPage;
 
   const handlePreviousPage = () => {
     if (!hasPreviousPage || loading) {
@@ -179,8 +182,8 @@ const People = () => {
 
           <div className="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-7 lg:px-8 lg:py-8">
             {/* ==========================================
-        HEADING
-    ========================================== */}
+                HEADING
+            ========================================== */}
 
             <div className="mb-5 flex items-start gap-3 sm:mb-6 sm:gap-4">
               <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#E6EFF8] text-[#0A66C2] shadow-sm sm:h-11 sm:w-11">
@@ -204,8 +207,8 @@ const People = () => {
             </div>
 
             {/* ==========================================
-        SEARCH + FILTERS
-    ========================================== */}
+                SEARCH + FILTERS
+            ========================================== */}
 
             <div className="rounded-2xl border border-[#DCE3E8] bg-white p-3 shadow-sm sm:p-4">
               <div className="flex flex-col gap-3 lg:flex-row">
