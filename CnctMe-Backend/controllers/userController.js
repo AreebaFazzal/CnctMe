@@ -428,6 +428,8 @@ const verifyEmail = async (req, res) => {
   user.verificationToken = null;
   user.verificationTokenExpires = null;
 
+  user.verificationCleanupAt = null;
+
   await user.save();
 
   return res.status(200).json({
